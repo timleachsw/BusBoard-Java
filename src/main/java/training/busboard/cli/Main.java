@@ -1,4 +1,6 @@
-package training.busboard;
+package training.busboard.cli;
+
+import training.busboard.client.*;
 
 import java.util.Comparator;
 import java.util.List;

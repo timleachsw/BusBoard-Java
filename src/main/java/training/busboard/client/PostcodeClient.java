@@ -1,4 +1,4 @@
-package training.busboard;
+package training.busboard.client;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

@@ -1,4 +1,4 @@
-package training.busboard;
+package training.busboard.client;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 

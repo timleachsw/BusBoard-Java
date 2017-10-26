@@ -1,4 +1,4 @@
-package training.busboard;
+package training.busboard.client;
 
 public class ArrivalPrediction {
     private String lineName;

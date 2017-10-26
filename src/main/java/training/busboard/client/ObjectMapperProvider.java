@@ -1,4 +1,4 @@
-package training.busboard;
+package training.busboard.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
