@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final TflClient tflClient = new TflClient();
+    private static final TransportClient transportClient = new TransportClient();
     private static final PostcodeClient postcodeClient = new PostcodeClient();
 
     public static void main(String args[]) {
@@ -29,7 +29,7 @@ public class Main {
                 continue;
             }
 
-            List<StopPoint> nearbyStops = tflClient.getStopsNear(coordinates);
+            List<StopPoint> nearbyStops = transportClient.getStopsNear(coordinates);
 
             if (nearbyStops.isEmpty()) {
                 System.out.println("No stops near this postcode");
@@ -45,15 +45,15 @@ public class Main {
     }
 
     private static void displayDepartureBoard(StopPoint stop) {
-        System.out.println("Departure board for " + stop.getCommonName() + ":");
-        List<ArrivalPrediction> arrivalPredictions = tflClient.getArrivalPredictions(stop.getNaptanId());
+        System.out.println("Departure board for " + stop.getName() + " (" + stop.getAtcocode() + "):");
+        List<ArrivalPrediction> arrivalPredictions = transportClient.getArrivalPredictions(stop.getAtcocode());
 
         if (arrivalPredictions.size() == 0) {
             System.out.println("None");
             System.out.println();
         }
 
-        arrivalPredictions.stream().sorted(Comparator.comparing(ArrivalPrediction::getTimeToStation)).limit(5).forEach(prediction ->
+        arrivalPredictions.stream().sorted(Comparator.comparing(ArrivalPrediction::getBestDepartureEstimate)).limit(5).forEach(prediction ->
                 System.out.println(formatPrediction(prediction))
         );
 
@@ -61,9 +61,9 @@ public class Main {
     }
 
     private static String formatPrediction(ArrivalPrediction prediction) {
-        return String.format("%d minutes: %s to %s",
-                prediction.getTimeToStation() / 60,
+        return String.format("%s: %s to %s",
+                prediction.getBestDepartureEstimate(),
                 prediction.getLineName(),
-                prediction.getDestinationName());
+                prediction.getDirection());
     }
-}	
+}

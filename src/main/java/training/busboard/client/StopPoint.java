@@ -1,16 +1,19 @@
 package training.busboard.client;
 
 public class StopPoint {
-    private String naptanId;
-    private String commonName;
+    private String atcocode;
+    private String name;
+    private int distance;
 
-    private StopPoint() {}
-
-    public String getNaptanId() {
-        return naptanId;
+    public String getAtcocode() {
+        return atcocode;
     }
 
-    public String getCommonName() {
-        return commonName;
+    public String getName() {
+        return name;
+    }
+
+    public int getDistance() {
+        return distance;
     }
 }

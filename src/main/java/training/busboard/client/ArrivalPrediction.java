@@ -1,20 +1,23 @@
 package training.busboard.client;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ArrivalPrediction {
     private String lineName;
-    private String destinationName;
-    private int timeToStation;
-
-    private ArrivalPrediction() {}
+    private String direction;
+    private String bestDepartureEstimate;
 
     public String getLineName() {
         return lineName;
     }
-    public String getDestinationName() {
-        return destinationName;
+
+    public String getDirection() {
+        return direction;
     }
 
-    public int getTimeToStation() {
-        return timeToStation;
+    public String getBestDepartureEstimate() {
+        return bestDepartureEstimate;
     }
 }
