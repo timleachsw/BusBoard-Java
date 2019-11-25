@@ -7,6 +7,9 @@
 
     <head>
         <title>Bus Information</title>
+        <script>
+            setInterval(function () {location.reload(true)}, 2000);
+        </script>
     </head>
     <body>
         <div layout:fragment="content" class="container body-content">
@@ -15,7 +18,7 @@
                 <div th:each="stop: ${busInfo.result}">
                     <h3><span th:text="${stop.get(0).stationName}"></span></h3>
                     <ul>
-                        <li th:each="bus: ${stop}"><span th:text="${bus.expectedArrival}"></span></li>
+                        <li th:each="bus: ${stop}">Bus <span th:text="${bus.lineName}"></span> arrival time: <span th:text="${bus.expectedArrival.getHour()}"></span>:<span th:text="${bus.expectedArrival.getMinute()}"></span>:<span th:text="${bus.expectedArrival.getSecond()}"></span></li>
                     </ul>
                 </div>
             </div>
