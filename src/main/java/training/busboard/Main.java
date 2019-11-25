@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Main {
+
     public static void main(String args[]) {
         // get bus code
         if (args.length != 1) {
@@ -23,33 +24,20 @@ public class Main {
         }
         String postCode = args[0];
 
-        Client client = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
-        PostCodeResponse postCodeResponse = client.target(String.format("https://api.postcodes.io/postcodes/%s",postCode))
-                .request(MediaType.APPLICATION_JSON)
-                .get(PostCodeResponse.class);
+        QueryAPI queryAPI = new QueryAPI();
+        PostCodeResponse postCodeResponse = queryAPI.QueryPostCode(postCode);
 
         // extract lat and long
         float lat = postCodeResponse.result.latitude;
         float lon = postCodeResponse.result.longitude;
 
-        RadiusResponse radiusResponse = client.target(String.format("https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&radius=1000&modes=bus&lat=%f&lon=%f",
-                lat, lon))
-                .request(MediaType.APPLICATION_JSON)
-                .get(RadiusResponse.class);
+        RadiusResponse radiusResponse = queryAPI.QueryRadius(lat, lon);
 
-        // extract bus code
-        for (int i = 0; i < 2; i ++) {
-            String busCode = radiusResponse.stopPoints.get(i).naptanId;
-
-            StopDataResponse[] stopDataResponses = client.target(String.format("https://api.tfl.gov.uk/StopPoint/%s/Arrivals",
-                    busCode))
-                    .request(MediaType.APPLICATION_JSON)
-                    .get(StopDataResponse[].class);
-
+        radiusResponse.stopPoints.stream().sorted(Comparator.comparingDouble(r->r.distance)).limit(2).forEach(stopData -> {
+            StopDataResponse[] stopDataResponses = queryAPI.QueryStop(stopData.naptanId);
             Stream<StopDataResponse> busStream = Arrays.stream(stopDataResponses);
             System.out.println("At bus stop " + stopDataResponses[0].stationName);
-            busStream.sorted(Comparator.comparingInt(r -> r.timeToStation)).limit(5).forEach(r -> r.print());
-        }
-
+            busStream.sorted(Comparator.comparingInt(r -> r.timeToStation)).limit(5).forEach(StopDataResponse::print);
+        });
     }
 }	
