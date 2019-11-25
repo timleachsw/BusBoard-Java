@@ -12,7 +12,12 @@
         <div layout:fragment="content" class="container body-content">
             <h2>Bus Information</h2>
             <div>
-                <p>You entered postcode <span th:text="${busInfo.postcode}"></span></p>
+                <div th:each="stop: ${busInfo.result}">
+                    <h3><span th:text="${stop.get(0).stationName}"></span></h3>
+                    <ul>
+                        <li th:each="bus: ${stop}"><span th:text="${bus.expectedArrival}"></span></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </body>
