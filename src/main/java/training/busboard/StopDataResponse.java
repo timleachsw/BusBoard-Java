@@ -8,8 +8,9 @@ public class StopDataResponse {
     public String destinationName;
     public String expectedArrival;
     public String lineName;
+    public String stationName;
 
     public void print() {
-        System.out.println(lineName);
+        System.out.println("Bus " + lineName + " will arrive at " + expectedArrival);
     }
 }
