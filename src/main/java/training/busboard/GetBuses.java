@@ -28,7 +28,6 @@ public class GetBuses {
         return radiusResponse.stopPoints.stream().sorted(Comparator.comparingDouble(r->r.distance)).limit(nStops).map(stopData -> {
             StopDataResponse[] stopDataResponses = queryAPI.QueryStop(stopData.naptanId);
             Stream<StopDataResponse> busStream = Arrays.stream(stopDataResponses);
-            System.out.println("At bus stop " + stopDataResponses[0].stationName);
             return busStream.sorted(Comparator.comparingInt(r -> r.timeToStation)).limit(nBuses).collect(Collectors.toList());
         }).collect(Collectors.toList());
     }
