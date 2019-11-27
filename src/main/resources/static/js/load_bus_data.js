@@ -1,3 +1,12 @@
+post_request();
+
+if (document.querySelector("#bus-info-container").childElementCount == 0) {
+    document.querySelector("#empty-explainer").style.display = "block";
+}
+
+setInterval(post_request, 5000);
+
+
 function post_request() {
     $.ajax({
         url : "/busData",
@@ -17,8 +26,6 @@ function post_request() {
         }
     })
 }
-
-setInterval(post_request, 5000);
 
 function formatBus() {
     console.log("Redrawing buses");
