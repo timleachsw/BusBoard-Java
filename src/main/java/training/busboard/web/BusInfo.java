@@ -1,14 +1,9 @@
 package training.busboard.web;
 
 import training.busboard.GetBuses;
-import training.busboard.PostCodeResponse;
-import training.busboard.QueryAPI;
 import training.busboard.StopDataResponse;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class BusInfo {
     private final String postcode;

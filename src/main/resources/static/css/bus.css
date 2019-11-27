@@ -1,5 +1,15 @@
+/*
 ul {
-    list-style-image: url('../../img/flagsmall.png');
+    list-style-image: url('../../img/flagsmallish.png');
+}
+*/
+
+ul {
+    list-style: none;
+}
+
+li {
+    border-left: #dd0000 2px solid;
 }
 
 .bus {

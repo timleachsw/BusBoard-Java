@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+
+<!--@thymesVar id="busInfo" type="training.busboard.web.BusInfo"-->
+<!--@thymesVar id="busInfoTwo" type="training.busboard.web.BusInfo"-->
+
+<head>
+    <title>Bus Information</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="../../js/empty_result.js" type="application/javascript"></script>
+    <script defer src="../../js/format_bus.js" type="application/javascript"></script>
+    <script defer src="../../js/load_bus_data.js" type="application/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/bus.css">
+</head>
+<body>
+<div layout:fragment="content" class="container body-content">
+    <h2>Bus Information for postcode <span id="postcode" th:text = "${busInfo.postcode}"></span></h2>
+    <div id="bus-info-container">
+        <div th:each="stop: ${busInfo.result}">
+            <h3><span th:text="${stop.get(0).stationName}"></span></h3>
+            <ul>
+                <li style = "height: 50px;" th:each="bus: ${stop}">
+                    <span class="bus-gap"><span class="bus-delay" style="display: none;" th:text="${bus.timeToStation}"></span></span>
+                    <img class="bus" src="../../img/hiclipart.com.png" alt="Italian Trulli">
+                    <span style="color: black;" th:text="${bus.lineName}"></span> -
+                    <span th:text="${bus.date}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="empty-explainer" style="display: none;">
+        No stops found near this postcode.
+    </div>
+
+    <div id="to_fill">
+    </div>
+
+</div>
+</body>
+</html>
