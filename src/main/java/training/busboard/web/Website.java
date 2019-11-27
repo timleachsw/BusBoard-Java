@@ -2,6 +2,8 @@ package training.busboard.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @EnableAutoConfiguration
-public class Website {
+public class Website extends SpringBootServletInitializer {
 
     @RequestMapping("/")
     ModelAndView home() {
@@ -24,7 +26,7 @@ public class Website {
         try {
             return new ModelAndView("info", "busInfo", new BusInfo(postcode)) ;
         } catch (Exception e) {
-            return new ModelAndView("invalid_postcode", "invalidPostcode", new InvalidPostcode(postcode)) ;
+            return new ModelAndView("invalid_postcode", "invalidPostcode", postcode) ;
         }
     }
 
@@ -35,6 +37,11 @@ public class Website {
 
     public static void main(String[] args) {
         SpringApplication.run(Website.class, args);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Website.class);
     }
 
 }

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 public class GetBuses {
     private int nStops;
     private int nBuses;
+    private QueryAPI queryAPI;
 
     public GetBuses(int nStops, int nBuses) {
         this.nStops = nStops;
@@ -16,7 +17,7 @@ public class GetBuses {
     }
 
     public List<List<StopDataResponse>> getBusesNear(String postCode) {
-        QueryAPI queryAPI = new QueryAPI();
+        this.queryAPI = new QueryAPI();
         PostCodeResponse postCodeResponse = queryAPI.QueryPostCode(postCode);
 
         // extract lat and long
@@ -25,10 +26,12 @@ public class GetBuses {
 
         RadiusResponse radiusResponse = queryAPI.QueryRadius(lat, lon);
 
-        return radiusResponse.stopPoints.stream().sorted(Comparator.comparingDouble(r->r.distance)).limit(nStops).map(stopData -> {
-            StopDataResponse[] stopDataResponses = queryAPI.QueryStop(stopData.naptanId);
-            Stream<StopDataResponse> busStream = Arrays.stream(stopDataResponses);
-            return busStream.sorted(Comparator.comparingInt(r -> r.timeToStation)).limit(nBuses).collect(Collectors.toList());
-        }).collect(Collectors.toList());
+        return radiusResponse.stopPoints.stream().sorted(Comparator.comparingDouble(r->r.distance)).limit(nStops).map(this::processStopData).collect(Collectors.toList());
+    }
+
+    public List<StopDataResponse> processStopData(StopPoint stopData) {
+        StopDataResponse[] stopDataResponses = queryAPI.QueryStop(stopData.naptanId);
+        Stream<StopDataResponse> busStream = Arrays.stream(stopDataResponses);
+        return busStream.sorted(Comparator.comparingInt(r -> r.timeToStation)).limit(nBuses).collect(Collectors.toList());
     }
 }

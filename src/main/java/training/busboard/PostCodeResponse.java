@@ -7,9 +7,10 @@ public class PostCodeResponse {
 
     public Result result;
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Result {
-        public float longitude;
-        public float latitude;
-    }
+}
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+class Result {
+    public float longitude;
+    public float latitude;
 }

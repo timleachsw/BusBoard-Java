@@ -17,10 +17,9 @@ import java.time.format.DateTimeFormatter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StopDataResponse {
-    public int timeToStation;
-    public String destinationName;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     public LocalDateTime expectedArrival;
+    public int timeToStation;
     public String lineName;
     public String stationName;
 

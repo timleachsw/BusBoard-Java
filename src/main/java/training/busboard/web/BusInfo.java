@@ -15,8 +15,7 @@ public class BusInfo {
 
     public BusInfo(String postcode) {
         this.postcode = formatPostcode(postcode);
-        GetBuses getBuses = new GetBuses(2, 5);
-        this.result = getBuses.getBusesNear(postcode);
+        this.result = new GetBuses(2, 5).getBusesNear(postcode);
     }
 
     public String getPostcode() {
