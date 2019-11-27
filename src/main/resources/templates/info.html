@@ -7,22 +7,29 @@
 
     <head>
         <title>Bus Information</title>
-        <script>
-            setInterval(function () {location.reload(true)}, 2000);
-        </script>
+        <meta http-equiv="refresh" content="10">
+        <script defer src="../../js/empty_result.js" type="application/javascript"></script>
+        <script defer src="../../js/format_bus.js" type="application/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="../../css/bus.css">
     </head>
     <body>
         <div layout:fragment="content" class="container body-content">
-            <h2>Bus Information</h2>
-            <div>
+            <h2>Bus Information for postcode <span th:text = "${busInfo.postcode}"></span></h2>
+            <div id="bus-info-container">
                 <div th:each="stop: ${busInfo.result}">
                     <h3><span th:text="${stop.get(0).stationName}"></span></h3>
                     <ul>
-                        <li th:each="bus: ${stop}">
-                            Bus <span th:text="${bus.lineName}"></span> arrival time: <span th:text="${bus.expectedArrival.getHour()}"></span>:<span th:text="${bus.expectedArrival.getMinute()}"></span>:<span th:text="${bus.expectedArrival.getSecond()}"></span>
+                        <li style = "height: 50px;" th:each="bus: ${stop}">
+                            <span class="bus-gap"><span class="bus-delay" style="display: none;" th:text="${bus.timeToStation}"></span></span>
+                            <img class="bus" src="../../img/hiclipart.com.png" alt="Italian Trulli">
+                            <span style="color: black;" th:text="${bus.lineName}"></span> -
+                            <span th:text="${bus.date}"></span>
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div id="empty-explainer" style="display: none;">
+                No stops found near this postcode.
             </div>
         </div>
     </body>

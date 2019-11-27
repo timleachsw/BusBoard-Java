@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StopDataResponse {
@@ -25,6 +26,11 @@ public class StopDataResponse {
 
     public void print() {
         System.out.println("Bus " + lineName + " will arrive at " + expectedArrival);
+    }
+
+    public String getDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return expectedArrival.format(formatter);
     }
 }
 
@@ -40,4 +46,5 @@ class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
         LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return dateTime;
     }
+
 }

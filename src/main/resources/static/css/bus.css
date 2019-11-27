@@ -1,0 +1,8 @@
+ul {
+    list-style-image: url('../../img/flagsmall.png');
+}
+
+.bus {
+    width: 60px;
+    z-index: -1;
+}
